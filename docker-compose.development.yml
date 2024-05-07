@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile.development
     tty: true
-    command: bash -c "rm -rf tmp/pids/server.pid && ./bin/dev"
+    command: bash -c "rm -rf tmp/pids/server.pid && ./bin/rails db:prepare && ./bin/dev"
     volumes:
       - .:/rails
     ports:
