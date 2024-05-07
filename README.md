@@ -19,7 +19,9 @@ Requirements:
 - `git clone git@github.com:joshellington/rails-docker-bootstrap.git .` (same directory)
 - `./bootstrap.sh --name YOUR_APP_NAME`
 
-If you'd like to override any of the `rails new` defaults, modify Step 2 in `bootstrap.sh` before running. If you'd like to add additional arguments to `rails new` (keeping the defaults), pass them in like so (note the `--` separator):
+If you'd like to override any of the pre-configured `rails new` defaults, modify Step 2 in `bootstrap.sh` before running.
+
+If you'd like to add additional arguments to `rails new`, pass them in like so (note the `--` separator):
 
 `./bootstrap.sh --name YOUR_APP_NAME -- --skip-system-tests --skip-action-mailer`
 
