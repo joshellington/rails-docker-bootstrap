@@ -14,6 +14,14 @@ while [[ "$#" -gt 0 ]]; do
     esac
 done
 
+# Step 0: Safely remove .git directory if it exists and is a git repository
+if [ -d ".git" ] && (cd .git && git rev-parse --git-dir > /dev/null 2>&1); then
+    echo "Removing .git directory..."
+    rm -rf ./.git
+else
+    echo ".git directory not found or not a git repository."
+fi
+
 # Step 1: Build the Docker image
 docker build -t $APP_NAME-rails-bootstrap -f Dockerfile.bootstrap .
 
