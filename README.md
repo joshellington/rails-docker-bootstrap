@@ -13,7 +13,7 @@ Requirements:
 
 - [OrbStack](https://orbstack.dev/) (highly recommended, free for personal use) or [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-## Basic usage
+## Usage
 
 - Create your project directory and navigate to it (`mkdir your_app_name && cd your_app_name`)
 - `git clone git@github.com:joshellington/rails-docker-bootstrap.git .` (same directory)
