@@ -14,21 +14,31 @@ while [[ "$#" -gt 0 ]]; do
     esac
 done
 
-# Step 0: Safely remove .git directory if it exists and is a git repository
+# Step 0: Prompt and remove .git directory if it exists and is a git repository
+echo "🟢 Cleaning .git directory..."
 if [ -d ".git" ] && (cd .git && git rev-parse --git-dir > /dev/null 2>&1); then
-    echo "Removing .git directory..."
-    rm -rf ./.git
+    read -p "This will remove the existing .git directory, are you sure? (y/N) " confirm
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        echo "Removing .git directory..."
+        rm -rf ./.git
+    else
+        echo "Aborted by user."
+        exit 1
+    fi
 else
     echo ".git directory not found or not a git repository."
 fi
 
 # Step 1: Build the Docker image
+echo "🟢 Building Dockerfile.bootstrap..."
 docker build -t $APP_NAME-rails-bootstrap -f Dockerfile.bootstrap .
 
 # Step 2: Run the Rails new commands
+echo "🟢 Running rails new..."
 docker run --rm -v $(pwd):/rails $APP_NAME-rails-bootstrap rails new . --force --name=$APP_NAME --database=postgresql --javascript=esbuild --css=tailwind "$@"
 
 # Step 3: Check for existing .env and COMPOSE_PROJECT_NAME variable, set .env
+echo "🟢 Checking and updating .env COMPOSE_PROJECT_NAME..."
 if [ -f ".env" ]; then
     if grep -q "^export COMPOSE_PROJECT_NAME=" .env; then
         echo ".env exists and COMPOSE_PROJECT_NAME is already set."
@@ -48,6 +58,7 @@ else
 fi
 
 # Step 4: Update Procfile.dev
+echo "🟢 Updating Procfile.dev..."
 if [ -f "Procfile.dev" ]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
         sed -i '' 's/^web: env RUBY_DEBUG_OPEN=true bin\/rails server$/web: env RUBY_DEBUG_OPEN=true bin\/rails server -b 0.0.0.0/' Procfile.dev
@@ -59,6 +70,7 @@ else
 fi
 
 # Step 5: Cleanup Docker image
+echo "🟢 Cleaning up bootstrap Docker image..."
 docker rmi $APP_NAME-rails-bootstrap
 
-echo "✅ Rails app $APP_NAME created successfully!"
+echo "✅ $APP_NAME created successfully!"
