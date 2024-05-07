@@ -73,4 +73,5 @@ fi
 echo "🟢 Cleaning up bootstrap Docker image..."
 docker rmi $APP_NAME-rails-bootstrap
 
-echo "✅ $APP_NAME created successfully!"
+echo ""
+echo "== ✅ $APP_NAME created successfully =="
