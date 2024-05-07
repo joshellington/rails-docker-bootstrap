@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+    tty: true
+    command: bash -c "rm -rf tmp/pids/server.pid && ./bin/dev"
+    volumes:
+      - .:/rails
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=development
+      - DATABASE_URL=postgres://root:password@postgres-db/
+      - RAILS_DEVELOPMENT_HOSTS=.local
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    env_file:
+      - .env
+
+  postgres-db:
+    image: postgres:16.2-bookworm
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: pg_isready
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  postgres: {}
