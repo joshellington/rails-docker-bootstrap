@@ -17,13 +17,13 @@ Requirements:
 
 - Create your project directory and navigate to it (`mkdir your_app_name && cd your_app_name`)
 - `git clone git@github.com:joshellington/rails-docker-bootstrap.git .` (same directory)
-- `./bootstrap.sh --name YOUR_APP_NAME`
+- `./bootstrap.sh --name your_app_name`
 
 If you'd like to override any of the pre-configured `rails new` defaults, modify Step 2 in `bootstrap.sh` before running.
 
 If you'd like to add additional arguments to `rails new`, pass them in like so (note the `--` separator):
 
-`./bootstrap.sh --name YOUR_APP_NAME -- --skip-system-tests --skip-action-mailer`
+`./bootstrap.sh --name your_app_name -- --skip-system-tests --skip-action-mailer`
 
 ---
 
