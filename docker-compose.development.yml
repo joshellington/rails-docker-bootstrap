@@ -30,7 +30,9 @@ services:
       - postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    tty: true
     restart: unless-stopped
+    stop_grace_period: "3s"
     healthcheck:
       test: pg_isready
       interval: 2s
