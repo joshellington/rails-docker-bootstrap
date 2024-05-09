@@ -9,7 +9,11 @@ WORKDIR /rails
 
 # Install packages needed to build gems and node modules
 RUN apt-get update -qq && \
-    apt-get install -qq --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3 postgresql-client
+    apt-get install -qq --no-install-recommends -y build-essential libjemalloc2 curl git libpq-dev libvips node-gyp pkg-config python-is-python3 postgresql-client ffmpeg yt-dlp
+
+# Set the environment variable to use jemalloc
+ENV LD_PRELOAD="libjemalloc.so.2" \
+    MALLOC_CONF="dirty_decay_ms:1000,narenas:2,background_thread:true,stats_print:false"
 
 # Install JavaScript dependencies
 ARG NODE_VERSION=20.11.1
